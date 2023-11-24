@@ -21,9 +21,12 @@ In the scoping phase we need to:
 
 * Monash data management resources: https://www.monash.edu/library/researchers/data-collection-management/about
 
+* https://medschool.duke.edu/sites/default/files/2021-10/data_management_sop_guidance_shared_resource.pdf
 
 # Notes
 
 Data sharing with other organisations.
 
 Training schedule
+
+Do bioinformaticians need lab notebooks?

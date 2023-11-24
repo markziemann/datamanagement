@@ -13,7 +13,7 @@ bibliography: references.bib
 csl: plos.csl
 ---
 
-Mark Ziemann, Josh Hayward & Long Nguyen
+Mark Ziemann, Josh Hayward, Long Nguyen & Gilda Tachedjian
 
 ## Preface
 
@@ -35,6 +35,7 @@ Rather, there will likely be a heirarchical approach with a few core tenets for 
 then more specific directives at the discipline level and specific plans at the sub-discipline level.
 In this draft plan we are laying out a set of guidelines and standard operating procedures for the management
 of bioinformatics data.
+A template is provided so that data management is tailored to the needs of the project.
 
 Bioinformatics, generally speaking is the application of computer technology to enable discoveries in biology
 and medicine.
@@ -45,7 +46,6 @@ trend towards larger cohort studies is increasing, which will place significant 
 bioinformatics.
 Best practices in this area could improve efficiency as well as lower the risk of data loss or inappropriate
 dissemination.
-
 
 ## Goals of data management
 
@@ -79,7 +79,12 @@ Researchers must:
 > primary materials. Where possible and appropriate, allow access and reference to these by
 > interested parties.
 
-## Research life cycle in bioinformatics
+## A brief overview of bioinformatics
+
+In the next sections I will describe some of the features of bioinformatics research which contextualises
+the need for guidelines and procedures.
+
+### Research life cycle in bioinformatics
 
 A typical project may involve:
 
@@ -107,22 +112,128 @@ Or if the objective is commercialisation, a patent application may be written in
 attend to any issues that arise after publication, for example members of the scientific community identify
 missing data, or problems with the data and findings which need to be addressed.
 
-## The types of data we handle in bioinformatics
+### The types of data we handle in bioinformatics
 
+We receive DNA sequencing datasets (GB to TB), mass spectrometric detection files, microarray files, and
+other profiling data.
+In addition to this, we may also handle microscopy images, flow cytometry and some other data types.
+Central to the analysis of these large datasets are descriptive data on the samples themselves.
+This might include metadata about the tissue or cell line, treatments, meadications, phenotypic descriptions,
+etc.
 
+### How bioinformatics goes from raw data to dissemination
 
+The data we receive is downloaded to our on premises computers and undergoes checking and backup.
+We then process the data with our existing pipelines or sometimes bespoke processing pipelines are required.
+The raw data is often transformed into intermediate files that are more amenable to specific queries.
+These intermediate files are also very large.
+From these intermediate files, data is extracted for modelling, statistics, analysis and integration with
+other data types.
+These data undergo rounds of data reduction to summarise the key findings and we implement various forms of
+data visualisation to demonstrate these results succinctly - and enable write-up.
+A large investment in time goes in to the bespoke analytical processes, in the form of written scripts
+(computer programs) commonly written in R, Python, Shell and other numerical languages.
+The management of those assets is equally important to the research data, and will be considered in a separate
+management plan.
+If the software versions used are recorded and archived, intermediate files do not need to be retained
+long term as they can be regenerated deterministically from the raw data and code.
+As the project nears completion, it is decided whether to share the de-identified data to complement the
+journal article publication.
 
+## Draft guidelines for bioinformatics data management
 
+I have previously written 10 quick tips for genomics data management for bioinformaticians.
 
+1. <b>Always work on servers, not home machines or laptops</b>
+On-prem machines and cloud servers are preferred because you can log into the from anywhere using ssh or
+other protocol.
+These machines are better suited to heavy loads and are less likely to breakdown because of the institutional
+tech support and maintenance.
+Institutional data transfer speeds will be far superior to your home network.
+Never do computational work on a laptop.
+Avoid storing data on your own portable hard drives or flash drives.
+If you don't have access to server, ask for access at your institution or research cloud provider
+(we use Nectar in Australia).
+At Burnet we have high performance computing facilities - Get in touch with Mark Ziemann or Shanon Loverage
+to get started.
 
+2. <b>Download the data to the place where you will be working on it the most.</b>
+The raw data should be downloaded in a project subfolder called "raw_data" or similar.
+I recommend using a command line tool because these are better suited to really large files.
+Your genomics service provider will probably give you an ftp or rsync command to use.
+Download to the server where you will be working the most.
 
+3. <b>Write a project README</b>
+It should contain an overview of the purpose of the experiment and the sample groups.
+Include metadata for each file which includes sample descriptions and any comparisons that need to be made.
+Include contacts to collaborators and key email discussions in necessary.
+If the project loses key staff, the README will be essential for eventual completion with replacement staff.
 
+4. <b>Check that the files are complete and not corrupted</b>
+The service provider will also give you checksums for each file which is like a digital fingerprint.
+The md5 method is the most used.
+You should check the checksums on the files you've downloaded. If its one file it can be done like this:
 
+```
+md5sum mysample.fastq.gz
+```
 
+If you have lots of checksums in a file called checksums.md5 you can check them on mass with parallel
+processing (link for more unix 1 liners here)
 
+```
+cat checksums.md5 | parallel --pipe -N1 md5sum -c
+```
 
+If you are dealing with fastq sequence files, run a fastq file validator
+(eg: https://genome.sph.umich.edu/wiki/FastQValidator) to check the integrity of
+the file including whether each file is complete and pairs have same number of reads.
+Run fastqc and multiqc to assess the overall quality of the data.
 
+5. <b>Immediately copy data to institutional research data store (RDS)</b>
+Nearly every university and research institute will have a data store where you can dump the raw data and
+metadata (sample descriptions).
+It is really important to do this in the case of your server disks failing.
+It also protects you against things like natural disasters because RDS themselves have geographically
+independent redundancy built in.
+For example RDS data is snapshot regularly and stored at other locations.
+You will need to repeat the md5sum checks for this RDS copy.
+From time to time you should also check that the data in the RDS is recoverable, so put an annual reminder
+into your diary.
 
+6. <b>Do not rely on the service provider to keep a copy for you</b>
+This includes people who are keeping their data on Illumina basespace.
+You still need to follow no. 5 above.
+Genomics service providers will normally delete the data after a few months.
 
+7. <b>Do your preliminary analysis carefully</b>
+Once downloaded and checked, it is a good idea to set the files to read only mode using the immutable flag
+so they won't accidentally be modified/destroyed by you or someone else.
+
+```
+chattr +i foo/bar.fastq.gz
+```
+
+8. <b>Consider uploading to SRA/GEO early</b>
+One you've done an analysis of the quality of the dataset and it represents a complete experiment, it is a good
+idea to upload it to an archiving repository.
+My work is mostly epigenomics and RNA-seq so I submit to NCBI GEO.
+If you are doing other applications such as genome sequencing, you could submit to NCBI SRA.
+You can keep it private for 12 months or however long you expect that it will need to be embargoed.
+The good thing about this is that in case there is some future disaster with the lab group, institution or
+yourself, the data will at least be available in future.
+The added benefit of SRA/GEO upload is that you can then delete the raw files from your working server
+(not the RDS) to make space for new projects.
+
+9. <b>Formalise your data management plan in writing</b>
+Draft an SOP and discuss it with your lab group and collaborators so they are aware of how the data is
+managed.
+Show your lab head and other members how to recover the data, involve IT staff and research data managers.
+Regularly update the data management plan to keep it valid.
+
+10. <b>Consider file formats carefully</b>
+The standard for genomics is compressed fastq, which will have a .fastq.gz or .fq.gz suffix. If your files are not compressed, use gzip or pigz to compress them, especally before long term storage. While there are alernative compression tools available, the benefit is not much. An alternative storage format is BAM or CRAM format which is most useful for large scale genome resequencing data, like 1000 Genomes. Whatever you do, make sure that the format is something that will exist in the future.
+
+# Template
 
 # References
