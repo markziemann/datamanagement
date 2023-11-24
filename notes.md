@@ -22,4 +22,8 @@ In the scoping phase we need to:
 * Monash data management resources: https://www.monash.edu/library/researchers/data-collection-management/about
 
 
+# Notes
 
+Data sharing with other organisations.
+
+Training schedule

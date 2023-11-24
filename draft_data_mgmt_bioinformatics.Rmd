@@ -1,0 +1,128 @@
+---
+title: "A draft data management plan for Bioinformatics at Burnet Institute"
+date: "`r Sys.Date()`"
+output:
+  rmdformats::robobook:
+  html_document:
+    toc: true
+    toc_float: true
+    code_folding: hide
+    fig_width: 5
+    fig_height: 5
+bibliography: references.bib
+csl: plos.csl
+---
+
+Mark Ziemann, Josh Hayward & Long Nguyen
+
+## Preface
+
+Data is the lifeblood of many modern organisations.
+Managing it properly is key for delivering routine services efficiently and in guiding management decision
+making.
+For research organisations like Burnet, data is an extremely valuable commodity as it is the substrate from
+which discoveries are made, innovations are conceived and policy/public health decisions are justified.
+To have maximum impact, data we collect as researchers should be available for reuse if it is in the best
+interests of the public, while taking the neccessary precautions to prevent sensitive, private or personal
+data from being disseminated innapropriately.
+
+Burnet collects and manages a great variety of data types, from laboratory results, to survey data, to
+clinical records, qualitative data, population wide data and datasets originating from other sources such as
+governments, other NGOs, companies and public domain.
+These data sets vary in sizes, file types, purpose and sensitivity, and so there won't be a one-size-fits-all
+solution to data management at Burnet.
+Rather, there will likely be a heirarchical approach with a few core tenets for research data as a whole and
+then more specific directives at the discipline level and specific plans at the sub-discipline level.
+In this draft plan we are laying out a set of guidelines and standard operating procedures for the management
+of bioinformatics data.
+
+Bioinformatics, generally speaking is the application of computer technology to enable discoveries in biology
+and medicine.
+Data sets can be both extremely large (100GB to 10TB per project), involve complex experimental designs,
+be collected over long periods of time (some projects take 10 years from conception to publication).
+While the number of participants is relatively small as compared to public health focused research, the
+trend towards larger cohort studies is increasing, which will place significant strain upon data managers in
+bioinformatics.
+Best practices in this area could improve efficiency as well as lower the risk of data loss or inappropriate
+dissemination.
+
+
+## Goals of data management
+
+1. Compliance. Fundamentally, data management practices are motivated by the need to remain compliant with
+the mandates of Australian Code for the Responsible Conduct of Research
+
+2. Protect the privacy and personal information of participants.
+
+3. Retain research data safely during the project and after if appropriate.
+
+4. Report and disseminate data responsibly.
+
+## Responsibilities
+
+Institutions must:
+
+> Provide access to facilities for the safe and secure storage and management of research data,
+> records and primary materials and, where possible and appropriate, allow access and reference.
+
+> Have a policy that covers the secure and safe retention of materials and research data.
+
+> In general, the minimum recommended period for retention of research data is
+> 5 years from the date of publication.
+
+> Have a policy that covers the secure and safe disposal of research data when the retention period is over.
+
+and primary materials when the specified period of retention has finished
+Researchers must:
+
+> Retain clear, accurate, secure and complete records of all research including research data and
+> primary materials. Where possible and appropriate, allow access and reference to these by
+> interested parties.
+
+## Research life cycle in bioinformatics
+
+A typical project may involve:
+
+* Ideation.
+
+* Involvement of several collaborating parties and their groups for example scientists, clinicians,
+administrators, epidemiologists, public health experts and technicians, from different sectors including
+academic, NGO, public and private industry.
+These individuals may be in senior or junior positions, and may have some knowledge of bioinformatics or
+data management practices or none at all. Local or international.
+
+* Project planning, which may involve a application for funding, budgeting, experimental design,
+preliminary data generation and analysis.
+
+* Main project data collection phase.
+
+* Main project data analysis phase (may occur in parallel with data collection).
+Analysis is typically intertwined with dissemination in mind, for example a manuscript might be prepared
+at the same time as data analysis if publication is the objective.
+Or if the objective is commercialisation, a patent application may be written in parallel with data analysis.
+
+* Dissemination. The journal article is accepted/published. The de-identified research data can be shared.
+
+* Maintenance. After a project is completed, reported and key data is shared researchers may still need to
+attend to any issues that arise after publication, for example members of the scientific community identify
+missing data, or problems with the data and findings which need to be addressed.
+
+## The types of data we handle in bioinformatics
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+# References
