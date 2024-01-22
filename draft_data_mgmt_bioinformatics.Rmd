@@ -143,33 +143,65 @@ journal article publication.
 ## Draft guidelines for bioinformatics data management
 
 I have previously written 10 quick tips for genomics data management for bioinformaticians.
+Here I will elaborate with a few extra points.
 
-1. <b>Always work on servers, not home machines or laptops</b>
+1. <b>Incorporate data management into project planning.</b>
+Data processing and storage are a significant cost and compliance requirement,
+so they need to be included into the budget.
+It's best to consult with a bioinformatician about the feasibility of project, the sample size consideration
+and what the approximate costs will be.
+Once in the initial planning stage, it is a good idea to write a project README, and keep it updated throughout the
+project's life.
+It should contain an overview of the purpose of the experiment and the sample groups.
+Include metadata for each file which includes sample descriptions and any comparisons that need to be made.
+Include contacts to collaborators and key email discussions in necessary.
+Discuss it with your lab group and collaborators so they are aware of how the data is
+managed.
+The README should be stored in each project directory in a clear text format like text (.txt) or markdown (.md).
+If the project loses key staff, the README will be essential for eventual completion with replacement staff.
+We will include a template at the end of this document.
+Regularly update the data management plan to keep it valid.
+
+2. <b>Always work on servers, not home PCs or laptops.</b>
 On-prem machines and cloud servers are preferred because you can log into the from anywhere using ssh or
 other protocol.
 These machines are better suited to heavy loads and are less likely to breakdown because of the institutional
 tech support and maintenance.
 Institutional data transfer speeds will be far superior to your home network.
-Never do computational work on a laptop.
-Avoid storing data on your own portable hard drives or flash drives.
+Never do computational work on a laptop, the data is less likely to be backed up, and data loss can be a security
+concern.
+Avoid storing data on your own portable hard drives or flash drives, as these are also insecure.
 If you don't have access to server, ask for access at your institution or research cloud provider
-(we use Nectar in Australia).
+(Australian universities have access to the Nectar research cloud).
 At Burnet we have high performance computing facilities - Get in touch with Mark Ziemann or Shanon Loverage
 to get started.
 
-2. <b>Download the data to the place where you will be working on it the most.</b>
+3. <b>Stocktake.</b>
+Take stock of the different places that you are doing work, such as workstations, servers, clouds, etc.
+If possible, consolidate to fewer places to reduce the hassle of maintaining all these environments.
+If you have a lot of projects to manage, make a list of projects, the names of the folders, collaborators contact
+details, data location and backup location.
+It's best to create this as a cloud document and share it with your supervisor so that they are aware of where
+your project data lives in case they need to inspect it.
+
+4. <b>Make a backup plan.</b>
+It is key to ensure your project data are backed up.
+First understand whether the location you are working already has a regular backup scheme in place.
+If it does, figure out how to restore data from backup.
+If it doesn't, then ask how your research manager or IT department on how best to do this.
+It may be as simple as copying the ~/projects directory over the network on a regular basis using cron scheduling.
+Another approach is to maintain backups of only the raw data and the code, knowing that intermediate files can
+be easily regenerated if the code/project is organised properly.
+Write a description of the backup and data restoration plan and share it with your supervisor.
+
+5. <b>Receiving and collecting data.</b>
+Download the data to the place where you will be working on it the most.
 The raw data should be downloaded in a project subfolder called "raw_data" or similar.
 I recommend using a command line tool because these are better suited to really large files.
 Your genomics service provider will probably give you an ftp or rsync command to use.
 Download to the server where you will be working the most.
 
-3. <b>Write a project README</b>
-It should contain an overview of the purpose of the experiment and the sample groups.
-Include metadata for each file which includes sample descriptions and any comparisons that need to be made.
-Include contacts to collaborators and key email discussions in necessary.
-If the project loses key staff, the README will be essential for eventual completion with replacement staff.
-
-4. <b>Check that the files are complete and not corrupted</b>
+6. <b>Check that the files are complete and not corrupted.</b>
 The service provider will also give you checksums for each file which is like a digital fingerprint.
 The md5 method is the most used.
 You should check the checksums on the files you've downloaded. If its one file it can be done like this:
@@ -190,9 +222,9 @@ If you are dealing with fastq sequence files, run a fastq file validator
 the file including whether each file is complete and pairs have same number of reads.
 Run fastqc and multiqc to assess the overall quality of the data.
 
-5. <b>Immediately copy data to institutional research data store (RDS)</b>
-Nearly every university and research institute will have a data store where you can dump the raw data and
-metadata (sample descriptions).
+7. <b>Immediately copy data to institutional research data store (RDS).</b>
+Nearly every university and research institute will have a data store where you can dump the raw data,
+metadata (sample descriptions) and README.
 It is really important to do this in the case of your server disks failing.
 It also protects you against things like natural disasters because RDS themselves have geographically
 independent redundancy built in.
@@ -201,20 +233,20 @@ You will need to repeat the md5sum checks for this RDS copy.
 From time to time you should also check that the data in the RDS is recoverable, so put an annual reminder
 into your diary.
 
-6. <b>Do not rely on the service provider to keep a copy for you</b>
+8. <b>Do not rely on the service provider to keep a copy for you.</b>
 This includes people who are keeping their data on Illumina basespace.
 You still need to follow no. 5 above.
 Genomics service providers will normally delete the data after a few months.
 
-7. <b>Do your preliminary analysis carefully</b>
+9. <b>Do your preliminary analysis carefully.</b>
 Once downloaded and checked, it is a good idea to set the files to read only mode using the immutable flag
 so they won't accidentally be modified/destroyed by you or someone else.
 
 ```
-chattr +i foo/bar.fastq.gz
+chattr +i foo/bar.fastq.gz d
 ```
 
-8. <b>Consider uploading to SRA/GEO early</b>
+10. <b>Consider uploading to SRA/GEO early.</b>
 One you've done an analysis of the quality of the dataset and it represents a complete experiment, it is a good
 idea to upload it to an archiving repository.
 My work is mostly epigenomics and RNA-seq so I submit to NCBI GEO.
@@ -225,14 +257,13 @@ yourself, the data will at least be available in future.
 The added benefit of SRA/GEO upload is that you can then delete the raw files from your working server
 (not the RDS) to make space for new projects.
 
-9. <b>Formalise your data management plan in writing</b>
-Draft an SOP and discuss it with your lab group and collaborators so they are aware of how the data is
-managed.
-Show your lab head and other members how to recover the data, involve IT staff and research data managers.
-Regularly update the data management plan to keep it valid.
-
-10. <b>Consider file formats carefully</b>
-The standard for genomics is compressed fastq, which will have a .fastq.gz or .fq.gz suffix. If your files are not compressed, use gzip or pigz to compress them, especally before long term storage. While there are alernative compression tools available, the benefit is not much. An alternative storage format is BAM or CRAM format which is most useful for large scale genome resequencing data, like 1000 Genomes. Whatever you do, make sure that the format is something that will exist in the future.
+11. <b>Consider file formats carefully.</b>
+The standard for genomics is compressed fastq, which will have a .fastq.gz or .fq.gz suffix.
+If your files are not compressed, use gzip or pigz to compress them, especally before long term storage.
+While there are alernative compression tools available, the benefit is not much.
+An alternative storage format is BAM or CRAM format which is most useful for large scale genome resequencing data,
+like 1000 Genomes.
+Whatever you do, make sure that the format is something that will exist in the future.
 
 # Template
 
